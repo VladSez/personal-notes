@@ -1,0 +1,53 @@
+.Panel {
+  display: flex;
+  flex-direction: column;
+  height: -webkit-fill-available;
+}
+
+.PanelContent {
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-panel-background);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.ResizeHandleOuter {
+  flex: 0 0 1em;
+  position: relative;
+  outline: none;
+
+  --background-color: rgb(240, 240, 240);
+}
+.ResizeHandleOuter[data-resize-handle-active] {
+  --background-color: rgb(186, 186, 186);
+}
+
+.ResizeHandleInner:hover {
+  background-color: rgb(224, 224, 224);
+  transition: background-color 0.2s linear;
+}
+
+.ResizeHandleInner {
+  position: absolute;
+  top: 0.25em;
+  bottom: 0.25em;
+  left: 0.25em;
+  right: 0.25em;
+  border-radius: 0.25em;
+  background-color: var(--background-color);
+  transition: background-color 0.2s linear;
+}
+
+.Icon {
+  width: 1em;
+  height: 1em;
+  position: absolute;
+  left: calc(50% - 0.5rem);
+  top: calc(50% - 0.5rem);
+}

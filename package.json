@@ -19,10 +19,12 @@
     "@trpc/next": "10.9.0",
     "@trpc/react-query": "10.9.0",
     "@trpc/server": "10.9.0",
+    "beautiful-react-hooks": "^3.12.2",
     "next": "13.1.6",
     "next-auth": "4.19.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-resizable-panels": "0.0.36",
     "superjson": "1.9.1",
     "zod": "3.20.2"
   },
