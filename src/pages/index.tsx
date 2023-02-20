@@ -20,13 +20,9 @@ function MonacoEditor() {
   const { sandpack } = useSandpack();
 
   return (
-    <SandpackStack
-      style={{
-        height: "100%",
-      }}
-    >
+    <SandpackStack className="h-full">
       <FileTabs />
-      <div style={{ flex: 1, paddingTop: 8 }}>
+      <div className="flex-1 pt-2">
         {/* https://github.com/suren-atoyan/monaco-react */}
         <Editor
           width="100%"
@@ -49,15 +45,14 @@ function MonacoEditor() {
 
 function Home() {
   const isMobile = useMediaQuery("(max-width: 640px)");
-
   return (
     <>
       <div className="mx-10 flex h-screen items-center justify-center overflow-x-hidden">
         <SandpackProvider
           // template="vanilla-ts"
           files={{
-            "/index.ts": `console.log('Hello World')`,
-            "/kek.ts": `console.log('Helllo kek')`,
+            "/index.ts": `console.log('Hello World');`,
+            "/kek.ts": `console.log('kek');`,
           }}
           // https://sandpack.codesandbox.io/docs/getting-started/usage#fully-custom-setup
           customSetup={{
@@ -66,7 +61,7 @@ function Home() {
           }}
           options={{
             recompileMode: "delayed",
-            recompileDelay: 600,
+            recompileDelay: 1000,
           }}
           className="w-full max-w-3xl"
         >
