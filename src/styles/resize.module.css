@@ -26,7 +26,7 @@
 }
 
 .ResizeHandleInner:hover {
-  background-color: rgb(224, 224, 224);
+  background-color: rgb(181, 181, 181);
   transition: background-color 0.2s linear;
 }
 
