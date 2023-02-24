@@ -10,8 +10,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@codesandbox/sandpack-react": "^2.0.6",
-    "@monaco-editor/react": "^4.4.6",
+    "@codesandbox/sandpack-react": "2.0.17",
+    "@monaco-editor/react": "4.4.6",
     "@next-auth/prisma-adapter": "1.0.5",
     "@prisma/client": "4.9.0",
     "@tanstack/react-query": "4.20.2",
@@ -19,14 +19,18 @@
     "@trpc/next": "10.9.0",
     "@trpc/react-query": "10.9.0",
     "@trpc/server": "10.9.0",
+    "beautiful-react-hooks": "3.12.2",
+    "monaco-editor": "0.35.0",
     "next": "13.1.6",
     "next-auth": "4.19.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-resizable-panels": "0.0.36",
     "superjson": "1.9.1",
     "zod": "3.20.2"
   },
   "devDependencies": {
+    "@changesets/cli": "2.26.0",
     "@types/node": "18.11.18",
     "@types/prettier": "2.7.2",
     "@types/react": "18.0.26",
