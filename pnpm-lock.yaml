@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@changesets/cli': ^2.26.0
+  '@changesets/cli': 2.26.0
   '@codesandbox/sandpack-react': 2.0.17
   '@monaco-editor/react': 4.4.6
   '@next-auth/prisma-adapter': 1.0.5
