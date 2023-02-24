@@ -10,7 +10,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@codesandbox/sandpack-react": "2.0.10",
+    "@codesandbox/sandpack-react": "2.0.17",
     "@monaco-editor/react": "4.4.6",
     "@next-auth/prisma-adapter": "1.0.5",
     "@prisma/client": "4.9.0",

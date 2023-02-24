@@ -15,11 +15,13 @@
 }
 
 .ResizeHandleOuter {
-  flex: 0 0 1em;
+  flex: 0 0 4px;
   position: relative;
   outline: none;
 
-  --background-color: rgb(240, 240, 240);
+  --background-color: rgb(224, 224, 224);
+  margin-left: 2px;
+  margin-right: 2px;
 }
 .ResizeHandleOuter[data-resize-handle-active] {
   --background-color: rgb(186, 186, 186);
@@ -32,11 +34,11 @@
 
 .ResizeHandleInner {
   position: absolute;
-  top: 0.25em;
-  bottom: 0.25em;
-  left: 0.25em;
-  right: 0.25em;
-  border-radius: 0.25em;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0;
   background-color: var(--background-color);
   transition: background-color 0.2s linear;
 }

@@ -9,14 +9,17 @@ import {
   SandpackConsole,
 } from "@codesandbox/sandpack-react";
 
-import Editor from "@monaco-editor/react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import useMediaQuery from "beautiful-react-hooks/useMediaQuery";
 import prettier from "prettier";
 import parser from "prettier/parser-babel";
+import useMediaQuery from "beautiful-react-hooks/useMediaQuery";
+import dynamic from "next/dynamic";
 
 import styles from "../styles/resize.module.css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+// types
+import type { Monaco } from "monaco-editor";
 import { MonacoEditor } from "monaco-editor";
 
 const CODE_FOR_TESTING = `
@@ -47,6 +50,11 @@ console.log(JSON.stringify(target,null,2));
 
 `;
 
+// lazy load editor
+const Editor = dynamic(() => import("@monaco-editor/react"), {
+  ssr: false,
+});
+
 function MonacoEditor() {
   const { code, updateCode } = useActiveCode();
   const { sandpack } = useSandpack();
@@ -54,6 +62,7 @@ function MonacoEditor() {
   const editorRef = useRef<unknown>(null);
 
   const monaco = editorRef?.current as MonacoEditor;
+  //    ^?
 
   const onFormatClick = () => {
     if (!monaco) {
@@ -83,11 +92,34 @@ function MonacoEditor() {
   };
 
   function handleEditorDidMount(editor: MonacoEditor) {
-    editorRef.current = editor;
+    if (editor) {
+      editorRef.current = editor;
+    }
   }
 
   function showValue() {
     alert(monaco?.getValue());
+  }
+
+  function handleEditorWillMount(monaco: Monaco) {
+    // TODO: follow https://github.com/microsoft/monaco-editor/issues/3343
+    // and https://github.com/microsoft/monaco-editor/pull/3350
+    // for newer typescript support
+
+    // monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+    //   target: monaco.languages.typescript.ScriptTarget.Latest,
+    //   noUnusedLocals: true,
+    //   noUnusedParameters: true,
+    //   lib: ["dom", "dom.iterable", "esnext"],
+    //   allowJs: true,
+    //   checkJs: true,
+    //   skipLibCheck: true,
+    // });
+
+    console.log("ts version: " + monaco.languages.typescript.typescriptVersion);
+    console.log(
+      monaco.languages.typescript.javascriptDefaults.getCompilerOptions()
+    );
   }
 
   return (
@@ -100,6 +132,7 @@ function MonacoEditor() {
         {/* https://github.com/suren-atoyan/monaco-react */}
         <Editor
           onMount={handleEditorDidMount}
+          beforeMount={handleEditorWillMount}
           width="100%"
           height="100%"
           language="typescript"
@@ -121,22 +154,57 @@ function MonacoEditor() {
   );
 }
 
+const DIRECTION = {
+  vertical: "vertical",
+  horizontal: "horizontal",
+} as const;
+
 function Home() {
   const isMobile = useMediaQuery("(max-width: 640px)");
-  const defaultDirection = isMobile ? "vertical" : "horizontal";
+  const defaultDirection = isMobile ? DIRECTION.vertical : DIRECTION.horizontal;
 
-  const [direction, setDirection] = useState<"vertical" | "horizontal">(
-    defaultDirection
-  );
+  const [direction, setDirection] =
+    useState<keyof typeof DIRECTION>(defaultDirection);
+
+  const [isClient, setClient] = useState(false);
+
+  useEffect(() => {
+    setClient(true);
+
+    if (isMobile) {
+      setDirection(DIRECTION.vertical);
+    } else {
+      setDirection(DIRECTION.horizontal);
+    }
+  }, [isMobile]);
+
+  if (!isClient) {
+    return (
+      <div className="m-5 flex h-screen items-center justify-center overflow-hidden">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <>
+      <button
+        onClick={() => {
+          setDirection(
+            direction === DIRECTION.vertical
+              ? DIRECTION.horizontal
+              : DIRECTION.vertical
+          );
+        }}
+      >
+        Change direction
+      </button>
       <div className="m-5 flex h-screen items-center justify-center overflow-hidden">
         {/* TODO: migrate to fater version?
             https://sandpack.codesandbox.io/docs/advanced-usage/bundlers
         */}
         <SandpackProvider
-          // template="vanilla-ts"
+          template="vanilla-ts"
           files={{
             "/index.ts": CODE_FOR_TESTING,
             "/kek.ts": `console.log('kek');`,
@@ -144,7 +212,8 @@ function Home() {
           // https://sandpack.codesandbox.io/docs/getting-started/usage#fully-custom-setup
           customSetup={{
             entry: "/index.ts",
-            environment: "parcel",
+            // Parcel causes some issues with TypeScript
+            // environment: "parcel",
           }}
           options={{
             recompileMode: "delayed",
@@ -161,15 +230,6 @@ function Home() {
           >
             <div className="flex h-screen w-full flex-col gap-1 sm:h-[30rem]">
               {/* https://github.com/bvaughn/react-resizable-panels */}
-              <button
-                onClick={() => {
-                  setDirection(
-                    direction === "vertical" ? "horizontal" : "vertical"
-                  );
-                }}
-              >
-                Change direction
-              </button>
 
               <PanelGroup direction={direction} autoSaveId="code-editor">
                 <Panel defaultSize={40} minSize={30} className={styles.Panel}>
