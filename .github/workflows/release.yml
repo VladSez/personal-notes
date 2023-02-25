@@ -38,3 +38,4 @@ jobs:
           publish: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SKIP_ENV_VALIDATION: 1
