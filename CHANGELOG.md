@@ -1,5 +1,11 @@
 # personal-notes-t3
 
+## 0.2.2
+
+### Patch Changes
+
+- 1a0aae3: fix changeset for app(non-npm package)
+
 ## 0.2.1
 
 ### Patch Changes
